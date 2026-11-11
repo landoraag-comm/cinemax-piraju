@@ -1,4 +1,4 @@
-(()=>{
+(async()=>{
 'use strict';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -119,12 +119,34 @@ function artCanvas(m,kind){
   const g=x.createRadialGradient(w/2,h/2,Math.min(w,h)*.3,w/2,h/2,Math.max(w,h)*.75);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,.55)');x.fillStyle=g;x.fillRect(0,0,w,h);
   return c;
 }
-const scaled=(src,w,h,q)=>{const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(src,0,0,w,h);return c.toDataURL('image/jpeg',q)};
-MOVIES.forEach(m=>{
-  m.bd=artCanvas(m,'bd');const po=artCanvas(m,'po');
-  m.bdURL=m.bd.toDataURL('image/jpeg',.82);m.poURL=po.toDataURL('image/jpeg',.86);
-  m.smURL=scaled(po,200,300,.8);m.tnURL=scaled(m.bd,360,203,.72);
-});
+/* As artes são desenhadas uma vez e guardadas no Cache Storage do navegador.
+   Na segunda visita elas vêm prontas do disco, sem gastar CPU redesenhando. */
+const ART_VERSION='art-v2';
+const toBlob=(c,q)=>new Promise(r=>c.toBlob(r,'image/jpeg',q));
+const shrink=(src,w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(src,0,0,w,h);return c};
+async function artBlobs(m){
+  const keys=['bd','po','sm'].map(k=>`/__art/${ART_VERSION}/${m.id}-${k}.jpg`);
+  let cache=null;
+  try{cache='caches'in window?await caches.open('cinemax-art'):null}catch(_){}
+  if(cache){
+    try{const hit=await Promise.all(keys.map(k=>cache.match(k)));if(hit.every(Boolean))return Promise.all(hit.map(r=>r.blob()))}catch(_){}
+  }
+  const bd=artCanvas(m,'bd'),po=artCanvas(m,'po');
+  const blobs=await Promise.all([toBlob(bd,.82),toBlob(po,.86),toBlob(shrink(po,200,300),.8)]);
+  bd.width=po.width=0; // libera a memória dos canvases
+  if(cache)try{await Promise.all(blobs.map((b,i)=>cache.put(keys[i],new Response(b,{headers:{'Content-Type':'image/jpeg'}}))))}catch(_){}
+  return blobs;
+}
+async function loadArt(){
+  // limpa versões antigas das artes dentro do cache
+  if('caches'in window)caches.open('cinemax-art').then(c=>c.keys()).then(rs=>rs.forEach(r=>{if(!r.url.includes('/'+ART_VERSION+'/'))caches.open('cinemax-art').then(c=>c.delete(r))})).catch(()=>{});
+  await Promise.all(MOVIES.map(async m=>{
+    const [bd,po,sm]=await artBlobs(m);
+    m.bdURL=URL.createObjectURL(bd);m.poURL=URL.createObjectURL(po);m.smURL=URL.createObjectURL(sm);
+    m.bd=await createImageBitmap(bd);
+  }));
+}
+await loadArt();
 
 /* ---------- salas e sessões ---------- */
 const ROOMS={
@@ -256,7 +278,7 @@ function renderMap(){
       const dx=(ci-(R.cols-1)/2)/((R.cols-1)/2),b=document.createElement('button');
       b.type='button';b.className='seat'+(st.type!=='std'?' '+st.type:'')+(st.taken?' taken':'');
       b.dataset.r=ri;b.dataset.c=ci;
-      b.style.setProperty('--dy',`calc(var(--s)*${(-(dx*dx)*.22).toFixed(3)})`);
+      b.style.setProperty('--w',(ri*14+Math.abs(ci-(R.cols-1)/2)*10|0)+'ms');b.style.setProperty('--dy',`calc(var(--s)*${(-(dx*dx)*.22).toFixed(3)})`);
       b.setAttribute('aria-label',`Fileira ${row.label}, assento ${ci+1}, ${st.taken?'ocupado':st.type==='rec'?'reclinável, livre':st.type==='acc'?'acessível, livre':'livre'}`);
       b.setAttribute('aria-pressed','false');if(st.taken)b.setAttribute('aria-disabled','true');
       rs.appendChild(b);
@@ -464,10 +486,22 @@ function finalize(){
   openModal();
 }
 let modalFocus=null;
-function openModal(){modalFocus=document.activeElement;$('#modal').hidden=false;document.documentElement.style.overflow='hidden';setTimeout(()=>$('#mClose').focus({preventScroll:true}),50)}
+function openModal(){modalFocus=document.activeElement;setTimeout(confetti,reduce?0:1900);$('#modal').hidden=false;document.documentElement.style.overflow='hidden';setTimeout(()=>$('#mClose').focus({preventScroll:true}),50)}
 function closeModal(){$('#modal').hidden=true;document.documentElement.style.overflow='';modalFocus&&modalFocus.focus&&modalFocus.focus({preventScroll:true})}
 $('#mClose').addEventListener('click',closeModal);$('#modalBg').addEventListener('click',closeModal);
 addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#modal').hidden)closeModal()});
+
+function confetti(){
+  if(reduce||$('#modal').hidden)return;
+  const c=document.createElement('canvas');c.className='confetti';c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);
+  const x=c.getContext('2d'),cols=['#c8102e','#e0a800','#2e9e63','#1f7ae0','#ffffff'];
+  const P=Array.from({length:90},()=>({x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.18,vx:(Math.random()-.5)*10,vy:-Math.random()*8-3,s:4+Math.random()*5,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[Math.random()*cols.length|0]}));
+  const t0=performance.now();
+  (function f(t){x.clearRect(0,0,c.width,c.height);
+    for(const p of P){p.vy+=.3;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()}
+    if(t-t0<2200)requestAnimationFrame(f);else c.remove(); // para e remove o canvas
+  })(t0);
+}
 
 /* ---------- sobre nós ---------- */
 (()=>{
@@ -478,6 +512,16 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#modal').hidden)closeMod
     return `<article class="card room-c"><h3>${R.name}</h3><div class="mini" aria-hidden="true"><span class="scr"></span>${rows.join('')}</div><p>${R.desc}</p><small>${R.rows*R.cols} lugares, 4 acessíveis${R.rec?(R.rec===R.rows?', todos reclináveis':`, ${R.rec} fileiras reclináveis`):''}</small></article>`;
   }).join('');
 })();
+function reveal(){
+  if(reduce||!('IntersectionObserver'in window))return;
+  document.documentElement.classList.add('js-rv');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+  $$('.sec-h,.poster,.prod,.room-c,.fact,.about-grid,.booking,.bk-head').forEach((el,i)=>{el.classList.add('rv');el.style.setProperty('--rd',(i%4)*70+'ms');io.observe(el)});
+  const fx=$('#facts');
+  const io2=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io2.disconnect();
+    $$('.fact b',fx).forEach(b=>{const n=+b.textContent,t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1100);b.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)})},{threshold:.5});
+  io2.observe(fx);
+}
 let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if(state.sid)fit()},150)},{passive:true});
 
 /* ---------- início ---------- */
@@ -485,5 +529,8 @@ renderDays();renderFmts();renderProds();
 const first=ofDay(state.day).filter(s=>!isPast(s)).sort((a,b)=>a.time.localeCompare(b.time));
 const pick=first.find(s=>s.mi===0&&s.time==='19:30')||first[0]||ofDay(state.day)[0];
 selectSession(pick.id,false);
-heroSet(0,true);heroAuto();
+heroSet(0,true);heroAuto();reveal();
+
+/* service worker: guarda página, CSS, JS e fontes para as próximas visitas */
+if('serviceWorker'in navigator&&location.protocol.startsWith('http')){const reg=()=>navigator.serviceWorker.register('sw.js').catch(()=>{});document.readyState==='complete'?reg():addEventListener('load',reg)}
 })();
