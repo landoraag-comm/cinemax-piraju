@@ -1,4 +1,3 @@
-<script>
 (()=>{
 'use strict';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -611,4 +610,3 @@ fanRender();fanLoop();
 heroSet(0);
 observeRv();
 })();
-</script>

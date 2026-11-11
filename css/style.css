@@ -1,9 +1,3 @@
-<title>Cinemax Piraju</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Manrope:wght@400;500;600;700;800&display=swap">
-<style>
 /* Layout: cinema em veludo escuro. Hero em tela cheia com fila de miniaturas, leque 3D de cartazes,
    sessões por dia, mapa de assentos com visão do telão (canvas), vitrine de bomboniere, sobre nós. */
 @property --tint{syntax:'<color>';inherits:true;initial-value:#d92d3b}
@@ -17,6 +11,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth;background:var(--ink)}
 body{margin:0;background:var(--ink);color:var(--fg);font:500 16px/1.55 var(--f-body);-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--ink);z-index:60}
@@ -362,4 +357,3 @@ footer{background:#070405;border-top:1px solid var(--line);padding-block:64px 12
   .curtains{display:none}.reel-track{animation:none}.hero-prog{display:none}.beam{animation:none}
   .ticket{transform:none}.modal-act{opacity:1}
 }
-</style>

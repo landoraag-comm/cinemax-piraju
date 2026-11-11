@@ -1,7 +1,20 @@
 # Cinemax Piraju
 
-Site de cinema em um único arquivo (`index.html`): hero animado, leque 3D de cartazes, sessões por dia,
-mapa de assentos com simulação da visão do telão, vitrine da bomboniere, ingresso animado e sobre nós.
+Site do cinema: hero animado, leque 3D de cartazes, sessões por dia, mapa de assentos com
+simulação da visão do telão, bomboniere, ingresso animado e sobre nós.
 
-`parts/` guarda o CSS, o HTML e o JS separados; `index.html` é a junção dos três.
-Para remontar: `cat parts/1-head.html parts/2-body.html parts/3-script.html > index.html`
+## Estrutura
+```
+index.html      estrutura da página
+css/style.css   visual, layout e animações
+js/main.js      dados (filmes, salas, sessões, produtos) e toda a interação
+```
+Os cartazes e cenas são desenhados por código (Canvas/SVG), então não há pasta de imagens.
+
+## Publicar (Firebase Hosting)
+```
+npm install -g firebase-tools
+firebase login --no-localhost
+firebase deploy --only hosting
+```
+Site: https://cinemax-piraju.web.app
