@@ -3,130 +3,113 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Cinemax Piraju: filmes em cartaz, sessões, escolha de assentos com visão do telão e bomboniere.">
 <title>Cinemax Piraju</title>
+<meta name="description" content="Cinemax Piraju: filmes em cartaz, sessões, escolha de assentos com visão do telão e bomboniere.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="curtains" id="curtains" aria-hidden="true"><i></i><i></i></div>
 
 <header class="top">
   <div class="wrap top-in">
-    <a class="brand" href="#inicio" aria-label="Cinemax Piraju, início">
-      <svg width="36" height="28" viewBox="0 0 36 28" aria-hidden="true"><path d="M3 2h30a2 2 0 0 1 2 2v5a4.5 4.5 0 0 0 0 10v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-5a4.5 4.5 0 0 0 0-10V4a2 2 0 0 1 2-2z" fill="#d92d3b"/><path d="M14 8.5v11l9-5.5z" fill="#fff6e8"/></svg>
-      <b>CINEMAX</b><span>Piraju</span>
+    <a class="brand" href="#inicio">
+      <svg width="26" height="20" viewBox="0 0 36 28" aria-hidden="true"><path d="M3 2h30a2 2 0 0 1 2 2v5a4.5 4.5 0 0 0 0 10v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-5a4.5 4.5 0 0 0 0-10V4a2 2 0 0 1 2-2z" fill="#c8102e"/></svg>
+      Cinemax <small>Piraju</small>
     </a>
     <nav class="nav" id="nav" aria-label="Principal">
-      <a href="#cartaz">Em cartaz</a><a href="#sessoes">Sessões</a><a href="#assentos">Assentos</a><a href="#bomboniere">Bomboniere</a><a href="#sobre">Sobre nós</a><a href="#contato">Contato</a>
+      <a href="#cartaz">Em cartaz</a><a href="#sessoes">Sessões</a><a href="#bomboniere">Bomboniere</a><a href="#sobre">Sobre nós</a><a href="#contato">Contato</a>
     </nav>
     <a class="btn btn-red" href="#sessoes">Comprar ingresso</a>
-    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true"><path d="M1 1h18M1 7h18M1 13h18" stroke="#f4ebe7" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <button class="icon-btn burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><path d="M1 1h16M1 6h16M1 11h16" stroke="#161514" stroke-width="1.8" stroke-linecap="round"/></svg></button>
   </div>
 </header>
 
 <main>
-<section class="hero" id="inicio" aria-label="Destaques">
-  <div class="hero-bg" id="heroBg"></div>
-  <div class="beam"></div>
-  <canvas class="dust" id="dust" aria-hidden="true"></canvas>
-  <div class="wrap hero-in">
-    <div class="hero-copy">
-      <div class="hero-meta" id="hMeta"></div>
-      <h1 class="hero-title" id="hTitle" aria-live="polite"></h1>
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div class="hero-copy" id="heroCopy">
+      <p class="kicker" id="hKicker"></p>
+      <h1 id="hTitle"></h1>
+      <div class="meta" id="hMeta"></div>
       <p class="hero-syn" id="hSyn"></p>
       <div class="hero-cta">
-        <button class="btn btn-red" id="hBuy" type="button">Ver sessões de hoje</button>
-        <a class="btn btn-ghost" href="#cartaz">Todos os filmes</a>
+        <button class="btn btn-red" id="hBuy" type="button">Ver horários</button>
+        <a class="btn btn-line" href="#cartaz">Todos os filmes</a>
       </div>
     </div>
-    <div class="rail-wrap">
-      <div class="rail" id="rail" role="tablist" aria-label="Escolher destaque"></div>
-      <div class="hero-ctl">
-        <button class="cbtn" id="hPrev" aria-label="Filme anterior"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M11 3L5 9l6 6" fill="none" stroke="#f4ebe7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <span class="count" id="hCount">1 / 6</span>
-        <button class="cbtn" id="hNext" aria-label="Próximo filme"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M7 3l6 6-6 6" fill="none" stroke="#f4ebe7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      </div>
-    </div>
-  </div>
-  <div class="hero-prog" aria-hidden="true"><i id="hProg"></i></div>
-</section>
-
-<div class="reel" aria-hidden="true"><div class="reel-track" id="reel"></div></div>
-
-<section class="sec cartaz" id="cartaz">
-  <div class="ghost" id="ghost" aria-hidden="true">Em cartaz</div>
-  <div class="wrap">
-    <header class="sec-h">
-      <h2>Em cartaz</h2>
-      <p>Arraste os cartazes ou use as setas. Toque no filme do centro para ver os horários.</p>
-    </header>
-  </div>
-  <div class="fan" id="fan" tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Filmes em cartaz"></div>
-  <div class="wrap">
-    <div class="fan-info" id="fanInfo" aria-live="polite"></div>
-    <div class="fan-ctl">
-      <button class="cbtn" id="fPrev" aria-label="Filme anterior"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M11 3L5 9l6 6" fill="none" stroke="#f4ebe7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <button class="cbtn" id="fNext" aria-label="Próximo filme"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M7 3l6 6-6 6" fill="none" stroke="#f4ebe7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="hero-media">
+      <div class="screen-frame" id="heroImgs"></div>
+      <div class="thumbs" id="thumbs" role="tablist" aria-label="Filmes em destaque"></div>
     </div>
   </div>
 </section>
 
-<section class="sec sess" id="sessoes">
+<section class="sec" id="cartaz">
+  <div class="wrap sec-h">
+    <h2>Em cartaz</h2>
+    <div class="row-ctl">
+      <button class="icon-btn" id="pPrev" aria-label="Voltar"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="#161514" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="icon-btn" id="pNext" aria-label="Avançar"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="#161514" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+  <div class="posters" id="posters"></div>
+</section>
+
+<section class="sec" id="sessoes">
   <div class="wrap">
-    <header class="sec-h">
+    <div class="sec-h">
       <h2>Sessões</h2>
-      <p>Escolha o dia, o formato e o horário. A barrinha embaixo de cada horário mostra quanto da sala já foi ocupado.</p>
-    </header>
-    <div class="days" id="days" role="group" aria-label="Dia da sessão"></div>
-    <div class="chips" id="fmts" role="group" aria-label="Formato"><span>Formato</span></div>
+      <p>A barra embaixo de cada horário mostra quanto da sala já está ocupado.</p>
+    </div>
+    <div class="toolbar">
+      <div class="days" id="days" role="group" aria-label="Dia"></div>
+      <div class="seg" id="fmts" role="group" aria-label="Formato"></div>
+    </div>
     <div class="mlist" id="mlist"></div>
   </div>
 </section>
 
-<section class="sec book" id="assentos">
+<section class="sec" id="assentos">
   <div class="wrap">
-    <header class="sec-h">
+    <div class="sec-h">
       <h2>Escolha seu assento</h2>
-      <p>Passe o mouse ou toque em um assento para ver como o telão aparece dali. Toque de novo para reservar.</p>
-    </header>
+      <p>Passe o mouse ou toque em um assento para ver o telão de onde você vai sentar.</p>
+    </div>
     <div class="bk-head">
       <img id="bkPoster" alt="">
       <div><h3 id="bkTitle"></h3><p id="bkMeta"></p></div>
-      <a class="btn btn-ghost" href="#sessoes">Trocar sessão</a>
+      <a class="btn btn-line" href="#sessoes">Trocar sessão</a>
     </div>
     <div class="booking">
-      <div class="room-card">
+      <div class="card room-card">
         <div class="room" id="room">
           <div class="screen">
-            <svg viewBox="0 0 600 60" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".08"/><stop offset=".5" stop-color="#fff6e4"/><stop offset="1" stop-color="#fff" stop-opacity=".08"/></linearGradient><filter id="sb" x="-10%" y="-100%" width="120%" height="300%"><feGaussianBlur stdDeviation="7"/></filter></defs><path d="M6 54Q300 -8 594 54" fill="none" stroke="#ffd9a0" stroke-width="12" opacity=".55" filter="url(#sb)"/><path d="M6 54Q300 -8 594 54" fill="none" stroke="url(#sg)" stroke-width="4" stroke-linecap="round"/></svg>
+            <svg viewBox="0 0 600 26" preserveAspectRatio="none" aria-hidden="true"><path d="M4 22Q300 -6 596 22" fill="none" stroke="#161514" stroke-width="3" stroke-linecap="round"/></svg>
             <span>Tela</span>
           </div>
-          <div class="cone"></div>
           <div class="rows" id="rows" role="group" aria-label="Mapa de assentos"></div>
         </div>
         <ul class="legend">
-          <li><i style="--c1:#e6dbd9;--c2:#b4a6a8"></i>Livre</li>
-          <li><i style="--c1:#2e2124;--c2:#241619"></i>Ocupado</li>
-          <li><i style="--c1:#f46a75;--c2:#b0212f"></i>Reclinável</li>
-          <li><i style="--c1:#8ec6ff;--c2:#3f86d8"></i>Acessível</li>
-          <li><i style="--c1:#82f2c0;--c2:#2cbf84"></i>Seu assento</li>
+          <li><i style="--c:var(--seat);--b:#cdc8bf"></i>Livre</li>
+          <li><i style="--c:var(--seat-taken)"></i>Ocupado</li>
+          <li><i style="--c:var(--rec)"></i>Reclinável</li>
+          <li><i style="--c:var(--acc)"></i>Acessível</li>
+          <li><i style="--c:var(--red)"></i>Seu assento</li>
         </ul>
       </div>
-      <aside class="pov" aria-label="Visão do telão">
+      <aside class="card pov" aria-label="Visão do telão">
         <div class="pov-view">
-          <canvas id="pov" width="960" height="720" aria-label="Simulação da visão do telão a partir do assento"></canvas>
-          <span class="pill a" id="povMode">Prévia</span>
-          <span class="pill b" id="povFrom"></span>
+          <canvas id="pov" width="800" height="600" aria-label="Simulação da visão do telão a partir do assento"></canvas>
+          <span class="pov-label" id="povMode">Prévia</span>
         </div>
         <div class="pov-body">
-          <div class="pov-seat"><h3 id="povTitle"></h3><div class="tags" id="povTags"></div></div>
+          <div class="pov-seat"><h3 id="povTitle"></h3><span id="povZone"></span></div>
           <div class="stats">
-            <div><b id="stDist">0</b><small>da tela</small></div>
-            <div><b id="stAng">0</b><small>campo de visão</small></div>
-            <div><b id="stOff">0</b><small id="stOffL">do centro</small></div>
+            <div><b id="stDist"></b><small>até a tela</small></div>
+            <div><b id="stAng"></b><small>campo de visão</small></div>
+            <div><b id="stOff"></b><small id="stOffL">do centro</small></div>
           </div>
           <div class="picked" id="picked"></div>
           <div class="sum" id="sum"></div>
@@ -137,31 +120,26 @@
   </div>
 </section>
 
-<section class="sec vit" id="bomboniere">
+<section class="sec" id="bomboniere">
   <div class="wrap">
-    <div class="marq">
-      <div class="bulbs t" id="bulbT" aria-hidden="true"></div>
+    <div class="sec-h">
       <h2>Bomboniere</h2>
       <p>Adicione ao pedido e retire na sua sessão, sem fila.</p>
-      <div class="bulbs b" id="bulbB" aria-hidden="true"></div>
     </div>
     <div class="prods" id="prods"></div>
   </div>
 </section>
 
-<section class="sec about" id="sobre">
+<section class="sec" id="sobre">
   <div class="wrap">
     <div class="about-grid">
-      <div>
-        <h2 class="lead">Um cinema para a cidade inteira</h2>
-        <div class="about-copy">
-          <p>O Cinemax Piraju existe para que ver um filme na tela grande continue sendo programa de sábado à noite, de aniversário e de domingo em família.</p>
-          <p>Você escolhe o filme, o horário e o assento antes de sair de casa. Cada assento mostra como o telão aparece dali, para não ter surpresa na hora de sentar.</p>
-          <p>Temos salas com poltronas comuns, reclináveis e lugares reservados para cadeirantes, todos marcados no mapa.</p>
-        </div>
+      <h2>Um cinema para a cidade inteira</h2>
+      <div class="about-copy">
+        <p>O Cinemax Piraju existe para que ver um filme na tela grande continue sendo programa de sábado à noite, de aniversário e de domingo em família.</p>
+        <p>Você escolhe o filme, o horário e o assento antes de sair de casa. Cada assento mostra como o telão aparece dali, para não ter surpresa na hora de sentar.</p>
       </div>
-      <div class="facts" id="facts"></div>
     </div>
+    <div class="facts" id="facts"></div>
     <div class="rooms" id="rooms"></div>
   </div>
 </section>
@@ -169,11 +147,11 @@
 
 <footer id="contato">
   <div class="wrap">
-    <div class="foot-big" aria-hidden="true">Cinemax Piraju</div>
-    <div class="foot-cols">
+    <div class="foot">
+      <div><h4>Cinemax Piraju</h4><p>Filmes, sessões e bomboniere em um só lugar.</p></div>
       <div><h4>Onde estamos</h4><p>Centro, Piraju – SP</p></div>
-      <div><h4>Bilheteria</h4><p>Todos os dias, de 30 minutos antes da primeira sessão até o início da última.</p></div>
-      <div><h4>Contato</h4><p>Telefone (14) 0000-0000</p></div>
+      <div><h4>Bilheteria</h4><p>Abre 30 minutos antes da primeira sessão do dia.</p></div>
+      <div><h4>Contato</h4><p>(14) 0000-0000</p></div>
     </div>
     <p class="copy">© Cinemax Piraju. Programação, horários e preços podem mudar sem aviso.</p>
   </div>
@@ -186,14 +164,14 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-label="Seu ingresso">
-  <div class="modal-bg"></div>
+  <div class="modal-bg" id="modalBg"></div>
   <div class="printer">
-    <div class="pbar"><i></i></div>
+    <div class="pbar"></div>
     <div class="tclip"><article class="ticket" id="ticket"></article></div>
   </div>
-  <div class="modal-act"><button class="btn btn-ghost" id="mClose" type="button">Fechar</button></div>
+  <div class="modal-act"><button class="btn" id="mClose" type="button">Fechar</button></div>
 </div>
-<canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
+
 <script src="js/main.js" defer></script>
 </body>
 </html>
