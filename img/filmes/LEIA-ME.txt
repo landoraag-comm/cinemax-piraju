@@ -1,0 +1,14 @@
+Coloque aqui os cartazes oficiais dos filmes (material de divulgação das distribuidoras).
+Nomes dos arquivos (JPG):
+
+  godzilla-minus-zero-cartaz.jpg        godzilla-minus-zero-fundo.jpg
+  klara-e-o-sol-cartaz.jpg              klara-e-o-sol-fundo.jpg
+  street-fighter-cartaz.jpg             street-fighter-fundo.jpg
+  homem-aranha-um-novo-dia-cartaz.jpg   homem-aranha-um-novo-dia-fundo.jpg
+  o-gatola-da-cartola-cartaz.jpg        o-gatola-da-cartola-fundo.jpg
+  os-farofeiros-3-cartaz.jpg            os-farofeiros-3-fundo.jpg
+
+"cartaz" = vertical (2:3, ex.: 600x900). "fundo" = horizontal (16:9, ex.: 1600x900), usado no destaque do início e na visão do telão.
+Depois de colocar os dois arquivos de um filme, abra js/main.js e troque imgs:false por imgs:true na linha desse filme.
+Se um arquivo faltar, o site usa um cartaz tipográfico no lugar.
+Para trocar de filme, edite a lista MOVIES no começo de js/main.js.
