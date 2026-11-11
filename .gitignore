@@ -1,0 +1,5 @@
+# prints e testes locais
+*.png
+!img/**/*.png
+node_modules/
+.firebase/
