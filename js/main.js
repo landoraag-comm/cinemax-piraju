@@ -22,12 +22,12 @@ const metaRest=m=>`<span>${m.genre}</span>`+(m.min?`<span>${dur(m.min)}</span>`:
    Sem os arquivos, o site mostra um cartaz tipográfico no lugar.
    age (classificação) e min (duração em minutos) ficam em branco até serem confirmados. */
 const MOVIES=[
- {id:'godzilla-minus-zero',title:'Godzilla Minus Zero',genre:'Ação, ficção científica',age:'',min:0,tag:'Estreia da semana',imgs:false,color:'#2b3a42',syn:'Dois anos depois da guerra, o Japão tenta se reerguer quando uma nova ameaça surge, justo no momento em que a esperança começa a voltar.'},
- {id:'klara-e-o-sol',title:'Klara e o Sol',genre:'Drama, ficção científica',age:'',min:0,tag:'Estreia da semana',imgs:false,color:'#c9893a',syn:'Klara, uma Amiga Artificial, conhece Josie e acaba ajudando a curar uma família marcada por perdas e conflitos.'},
- {id:'street-fighter',title:'Street Fighter',genre:'Ação',age:'',min:0,tag:'Em cartaz',imgs:false,color:'#8c1d18',syn:'Os lutadores mais conhecidos dos games chegam à tela grande num torneio em que cada luta decide muito mais do que um título.'},
- {id:'homem-aranha-um-novo-dia',title:'Homem-Aranha: Um Novo Dia',genre:'Ação, aventura',age:'',min:0,tag:'Em cartaz',imgs:false,color:'#1d3c78',syn:'Uma nova fase para o herói da vizinhança, com Nova York de novo no centro da história.'},
- {id:'o-gatola-da-cartola',title:'O Gatola da Cartola',genre:'Animação, família',age:'',min:0,tag:'Para a família',imgs:false,color:'#d2462d',syn:'O Gatola precisa animar dois irmãos que acabaram de se mudar de cidade, e arrisca a própria cartola mágica numa missão cheia de confusão.'},
- {id:'os-farofeiros-3',title:'Os Farofeiros 3',genre:'Comédia',age:'',min:0,tag:'Cinema nacional',imgs:false,color:'#1f7a6a',syn:'A turma viaja ao Caribe para o casamento de Anita, filha de Rocha, numa ilha onde nada sai como o planejado.'}
+ {id:'godzilla-minus-zero',title:'Godzilla Minus Zero',genre:'Ação, ficção científica',age:'',min:0,tag:'Estreia da semana',imgs:true,color:'#2b3a42',syn:'Dois anos depois da guerra, o Japão tenta se reerguer quando uma nova ameaça surge, justo no momento em que a esperança começa a voltar.'},
+ {id:'klara-e-o-sol',title:'Klara e o Sol',genre:'Drama, ficção científica',age:'',min:0,tag:'Estreia da semana',imgs:true,color:'#c9893a',syn:'Klara, uma Amiga Artificial, conhece Josie e acaba ajudando a curar uma família marcada por perdas e conflitos.'},
+ {id:'street-fighter',title:'Street Fighter',genre:'Ação',age:'',min:0,tag:'Em cartaz',imgs:true,color:'#8c1d18',syn:'Os lutadores mais conhecidos dos games chegam à tela grande num torneio em que cada luta decide muito mais do que um título.'},
+ {id:'homem-aranha-um-novo-dia',title:'Homem-Aranha: Um Novo Dia',genre:'Ação, aventura',age:'',min:0,tag:'Em cartaz',imgs:true,color:'#1d3c78',syn:'Uma nova fase para o herói da vizinhança, com Nova York de novo no centro da história.'},
+ {id:'o-gatola-da-cartola',title:'O Gatola da Cartola',genre:'Animação, família',age:'',min:0,tag:'Para a família',imgs:true,color:'#d2462d',syn:'O Gatola precisa animar dois irmãos que acabaram de se mudar de cidade, e arrisca a própria cartola mágica numa missão cheia de confusão.'},
+ {id:'os-farofeiros-3',title:'Os Farofeiros 3',genre:'Comédia',age:'',min:0,tag:'Cinema nacional',imgs:true,color:'#1f7a6a',syn:'A turma viaja ao Caribe para o casamento de Anita, filha de Rocha, numa ilha onde nada sai como o planejado.'}
 ];
 const NM=MOVIES.length;
 

@@ -2,7 +2,7 @@
    - Página (HTML): busca na rede primeiro, para atualizações aparecerem na hora; sem internet, usa a cópia guardada.
    - CSS, JS e fontes: vêm do cache e são atualizados em segundo plano.
    Ao publicar uma versão nova, aumente VERSION aqui e o ?v= no index.html. */
-const VERSION='v4';
+const VERSION='v5';
 const STATIC=`cinemax-static-${VERSION}`;
 const ASSETS=['./','index.html',`css/style.css?v=${VERSION}`,`js/main.js?v=${VERSION}`];
 
